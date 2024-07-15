@@ -14,7 +14,7 @@ import urllib.request
 import zipfile
 from natsort import natsorted
 
-def get_data(path:str, file_type:str, verbose:bool):
+def get_data(path:str, file_type:str, verbose:bool=True, exclude_hidden:bool=True):
   """
   Get files from path with sepsific file types.
 
@@ -29,6 +29,8 @@ def get_data(path:str, file_type:str, verbose:bool):
   path = pathlib.Path(path)
   lookfor = '*' + file_type
   paths = list(path.glob(lookfor))
+  if exclude_hidden:
+      paths = [p for p in paths if not p.startswith('.')]
   paths = sorted(paths)
   if verbose == True:
     print(f'Total paths: {len(paths)}')
